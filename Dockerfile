@@ -6,7 +6,7 @@ COPY bin /usr/local/bin
 RUN chmod +x /usr/local/bin/*.sh
 
 RUN docker-php-source extract && \
-	apk add --update --virtual .build-dependencies binutils build-base autoconf libzip-dev libpng-dev gmp-dev openssl-dev curl-dev icu-dev && \
+	apk add --no-cache --update --virtual .build-dependencies binutils build-base autoconf libzip-dev libpng-dev gmp-dev openssl-dev curl-dev icu-dev openssh-client tree git && \
 	cd /usr/src && \
 	curl -L https://github.com/redis/hiredis/archive/v0.13.3.tar.gz --output hiredis.tar.gz && tar fxz hiredis.tar.gz && \
 	cd hiredis-0.13.3 && \
@@ -33,7 +33,6 @@ RUN curl -L https://getcomposer.org/installer --output composer-setup.php && \
 
 RUN rm -rf /var/cache/apk/* && \
 	docker-php-source delete
-	#apk del .build-dependencies 
 
 WORKDIR /var/www
 
